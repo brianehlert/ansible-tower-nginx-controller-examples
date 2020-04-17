@@ -1,0 +1,8 @@
+env:
+  controller_fqdn: '{{nginxControllerDNS}}'
+  user_email: '{{controllerUserEmail}}'
+  user_password: '{{controllerUserPassword}}'
+extra_vars:
+  controller_fqdn: '{{nginxControllerDNS}}'
+  user_email: '{{controllerUserEmail}}'
+  user_password: '{{controllerUserPassword}}'

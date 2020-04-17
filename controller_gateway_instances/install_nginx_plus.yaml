@@ -1,0 +1,82 @@
+---
+# this is a playbook to create X number of NGINX Plus instances for use as Gateway objects in NGINX Controller.
+# this example was developed for use with Ansible Tower.
+
+- name: Get the repo information to deploy nginx plus
+  hosts: localhost
+  gather_facts: false
+  connection: local
+
+  tasks:
+  - name: Read the Vault protected certificate and key
+    include_vars:
+      file: "{{playbook_dir}}/nginx-repo.yaml"
+
+  - name: write the crt for use by the Role
+    copy:
+      content: '{{ ssl_certificate }}'
+      dest: "{{playbook_dir}}/nginx-repo.crt"
+
+  - name: write the key for use by the Role
+    copy:
+      content: '{{ ssl_private_key }}'
+      dest: "{{playbook_dir}}/nginx-repo.key"
+
+
+- name: install nginx plus
+  hosts: tag_new_gateway
+  remote_user: ubuntu
+  become: true
+  gather_facts: true
+
+  tasks:
+  - name: update the system
+    apt:
+      update_cache: yes
+
+  - name: load the vars
+    include_vars: 
+      file: "{{playbook_dir}}/nginx_plus_vars.yaml"
+
+  - name: install nginx plus
+    include_role:
+      name: nginxinc.nginx_controller.nginx
+
+  - name: stop nginx plus
+    service:
+      name=nginx
+      state=stopped
+
+  - name: set logrotate to 5 days retention
+    lineinfile:
+      path: /etc/logrotate.d/nginx
+      regexp: rotate
+      line: rotate 5
+      state: present
+
+  - name: set logrotate to 500M size
+    lineinfile:
+      path: /etc/logrotate.d/nginx
+      insertafter: rotate
+      firstmatch: true
+      line: size 500M
+      state: present
+
+  - name: start nginx plus
+    service:
+      name=nginx
+      state=started
+
+- name: clean-up the temporary repo information
+  hosts: localhost
+  gather_facts: false
+  connection: local
+
+  tasks:
+  - name: remove the un-encrypted crt and key
+    file:
+      path: "{{item}}"
+      state: absent
+    with_items:
+      - "{{playbook_dir}}/nginx-repo.crt"
+      - "{{playbook_dir}}/nginx-repo.key"

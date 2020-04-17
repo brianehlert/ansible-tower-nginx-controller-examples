@@ -1,0 +1,16 @@
+---
+component:
+  metadata:
+    name: "trading-referrals"
+    displayName: "Trading Referrals"
+  desiredState:
+    ingress:
+      uris:
+        "/app3": {}
+      gatewayRefs:
+        - ref: "/services/environments/{{ environmentName }}/gateways/trading.acmefinancial.net"
+    backend:
+      workloadGroups:
+        servers:
+          uris:
+            "http://10.1.20.21:9805": {} # use defaults

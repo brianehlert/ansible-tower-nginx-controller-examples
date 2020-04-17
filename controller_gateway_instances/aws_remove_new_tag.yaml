@@ -1,0 +1,22 @@
+---
+- hosts: localhost
+  gather_facts: false
+  connection: local
+
+  tasks:
+  - debug:
+      msg:
+      # - "{{ hostvars[item] }}"
+      - "{{ hostvars[item]['ec2_id'] }}"
+    with_items:
+    - "{{ groups['tag_new_gateway'] }}"
+
+  - name: remove new-gateway tag
+    ec2_tag:
+      resource: "{{ hostvars[item]['ec2_id'] }}"
+      region: "{{ region }}"
+      tags:
+        new-gateway: ""
+      state: absent
+    with_items: 
+    - "{{ groups['tag_new_gateway'] }}"

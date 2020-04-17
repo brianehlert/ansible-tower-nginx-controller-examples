@@ -1,0 +1,24 @@
+---
+component:
+  metadata:
+    name: "trading-main"
+    displayName: "Trading Main App"
+  desiredState:
+    ingress:
+      uris:
+        "/": {}
+      gatewayRefs:
+        - ref: "/services/environments/{{ environmentName }}/gateways/trading.acmefinancial.net"
+    backend:
+      workloadGroups:
+        mainapp-servers:
+          uris:
+            "http://10.1.20.21:9801": {} # use defaults
+          sessionPersistence:
+            type: COOKIE
+            srvID: p_mainapp
+            expireTime: 1h
+            domain: ".$host"
+            httpOnly: enabled
+            secure: enabled
+            path: "/"

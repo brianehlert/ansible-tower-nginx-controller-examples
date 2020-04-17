@@ -1,0 +1,6 @@
+---
+app:
+  metadata:
+    name: "trading.acmefinancial.net"
+    displayName: "Trading.ACMEFinancial.net"
+    description: "Core Trading Application"

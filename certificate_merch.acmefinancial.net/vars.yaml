@@ -1,0 +1,16 @@
+---
+certificate:
+  environmentName: "production-us-west"
+  metadata:
+    name:  "merch.acmefinancial.net"
+    displayName:  "Merchant Certificate"
+    description:  "merch.acmefinancial.net merchant certificate"
+  desiredState:
+    type:  PEM
+    privateKey: |-
+      {{ lookup('file', "merch.acmefinancial.net.key") }}
+    publicCert: |-
+      {{ lookup('file', "merch.acmefinancial.net.crt") }}
+    caCerts:
+      - |-
+        {{ lookup('file', "chain.crt") }}

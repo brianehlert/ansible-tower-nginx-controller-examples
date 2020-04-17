@@ -1,0 +1,56 @@
+---
+- hosts: localhost
+  gather_facts: false
+  collections:
+  - nginxinc.nginx_controller
+
+  tasks:
+  - name: get files that start with component
+    find:
+      paths: "{{ playbook_dir }}"
+      patterns:
+        component_*.yaml
+    register: componentFiles
+
+  - name: read the app config
+    include_vars: 
+      file: "{{ playbook_dir }}/app_trading.yaml"
+
+  - name: set appName
+    set_fact:
+      appName: "{{ app.metadata.name }}"
+
+  - include_role:
+      name: nginx_controller_generate_token
+  
+
+  - name: read main component
+    include_vars:
+      file: "{{ playbook_dir }}/component_main.yaml"
+  - name: upsert the component
+    include_role:
+      name: nginx_controller_component
+
+
+  - name: read files component
+    include_vars:
+      file: "{{ playbook_dir }}/component_files.yaml"
+  - name: upsert the component
+    include_role:
+      name: nginx_controller_component
+
+
+  - name: read referrals component
+    include_vars:
+      file: "{{ playbook_dir }}/component_referrals.yaml"
+  - name: upsert the component
+    include_role:
+      name: nginx_controller_component
+
+
+  - name: read transfers component
+    include_vars:
+      file: "{{ playbook_dir }}/component_transfers.yaml"
+  - name: upsert the component
+    include_role:
+      name: nginx_controller_component

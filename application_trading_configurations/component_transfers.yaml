@@ -1,0 +1,16 @@
+---
+component:
+  metadata:
+    name: "trading-transfers"
+    displayName: "Trading Transfers Component"
+  desiredState:
+    ingress:
+      uris:
+        "/api": {}
+      gatewayRefs:
+        - ref: "/services/environments/{{ environmentName }}/gateways/trading.acmefinancial.net"
+    backend:
+      workloadGroups:
+        app2-servers:
+          uris:
+            "http://10.1.20.21:9804": {} # use defaults

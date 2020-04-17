@@ -1,0 +1,15 @@
+fields:
+  - id: controllerUserEmail
+    type: string
+    label: NGINX Controller user email
+  - id: controllerUserPassword
+    type: string
+    label: NGINX Controller user password
+    secret: true
+  - id: nginxControllerDNS
+    type: string
+    label: NGINX Controller DNS or IP address
+required:
+  - controllerUserEmail
+  - controllerUserPassword
+  - nginxControllerDNS

@@ -1,0 +1,16 @@
+---
+- hosts: localhost
+  gather_facts: no
+  collections:
+  - nginxinc.nginx_controller
+
+  tasks:
+  - include_role:
+      name: nginx_controller_generate_token
+
+  - name: load the vars
+    include_vars: vars.yaml
+
+  - name: upsert the certificate object
+    include_role:
+      name: nginx_controller_certificate
