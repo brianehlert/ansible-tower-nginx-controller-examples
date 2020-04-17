@@ -1,0 +1,27 @@
+---
+gateway:
+  environmentName: "production-us-west"
+  metadata:
+    name: lending
+    displayName: "Common Public Lending Env Gateway"
+    description: "Routes all non special Lending applications"
+    tags:
+    - lending
+    - production
+  desiredState:
+    ingress:
+      uris:
+        "http://mortgage.acmefinancial.net": {}
+        "https://mortgage.acmefinancial.net": {}
+        "http://ratecalculator.acmefinancial.net": {}
+        "https://ratecalculator.acmefinancial.net": {}
+      tls:
+        certRef:
+          ref: "/services/environments/{{environmentName}}/certs/star.acmefinancial.net"
+        protocols:
+          - "TLSv1.3"
+          - "TLSv1.1"
+      placement:
+        instanceRefs:
+          - ref: "/infrastructure/locations/unspecified/instances/2"
+          - ref: "/infrastructure/locations/unspecified/instances/4"

@@ -1,0 +1,18 @@
+# ansible-playbook nginx_controller_gateway.yaml -e "user_email=brian@example.com user_password=notsecure controller_fqdn=controller.example.local" 
+# ansible-playbook nginx_controller_gateway.yaml -e "@nginx_controller_gateway_vars.yaml"
+
+- hosts: localhost
+  gather_facts: no
+  collections:
+  - nginxinc.nginx_controller
+
+  tasks:
+  - name: load the vars.yaml 
+    include_vars: "{{ playbook_dir }}/vars.yaml"
+
+  - include_role:
+      name: nginx_controller_generate_token
+
+  - name: configure the gateway
+    include_role:
+      name: nginx_controller_gateway
