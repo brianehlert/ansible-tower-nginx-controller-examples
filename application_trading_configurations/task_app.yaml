@@ -9,40 +9,10 @@
     include_vars: 
       file: "{{ playbook_dir }}/app_trading.yaml"
 
-  - name: Form the component url
-    set_fact:
-      app_url: >-
-        https://{{ controller_fqdn }}/api/v1/services/environments/{{ environmentName }}/apps/{{ app.metadata.name }}
+  - name: Retrieve the NGINX Controller auth token
+    include_role:
+      name: nginxinc.nginx_controller_generate_token
 
-  - include_role:
-      name: nginx_controller_generate_token
-
-  - name: Test for app
-    uri:
-      url: "{{ app_url }}"
-      method: "GET"
-      status_code:
-        - 200
-        - 201
-        - 404
-      return_content: yes
-      validate_certs: no
-      headers:
-        Cookie: "{{ controller.auth_token }}"
-    register: app_status
-
-  - name: create if app is absent
-    uri:
-      url: "{{ app_url }}"
-      method: "PUT"
-      body: "{{ app }}"
-      body_format: json
-      status_code:
-        - 200
-        - 201
-        - 202
-      return_content: yes
-      validate_certs: no
-      headers:
-        Cookie: "{{ controller.auth_token }}"
-    when: app_status.status == 404
+  - name: Configure the application
+    include_role:
+      name: nginxinc.nginx_controller_application

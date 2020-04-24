@@ -1,6 +1,5 @@
 ---
-certificate:
-  environmentName: "production-us-west"
+nginx_controller_certificate:
   metadata:
     name:  "merch.acmefinancial.net"
     displayName:  "Merchant Certificate"

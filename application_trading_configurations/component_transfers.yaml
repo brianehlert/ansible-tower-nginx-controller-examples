@@ -1,5 +1,5 @@
 ---
-component:
+nginx_controller_component:
   metadata:
     name: "trading-transfers"
     displayName: "Trading Transfers Component"

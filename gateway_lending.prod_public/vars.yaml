@@ -1,6 +1,5 @@
 ---
-gateway:
-  environmentName: "production-us-west"
+nginx_controller_gateway:
   metadata:
     name: lending
     displayName: "Common Public Lending Env Gateway"

@@ -1,15 +1,18 @@
 fields:
-  - id: controllerUserEmail
+  - id: nginxControllerUserEmail
     type: string
-    label: NGINX Controller user email
-  - id: controllerUserPassword
+    label: NGINX Controller user email address
+  - id: nginxControllerUserPassword
     type: string
     label: NGINX Controller user password
     secret: true
   - id: nginxControllerDNS
     type: string
     label: NGINX Controller DNS or IP address
+  - id: nginxControllerToken
+    type: string
+    label: NGINX Controller API Authentication Token
 required:
-  - controllerUserEmail
-  - controllerUserPassword
+  - nginxControllerUserEmail
+  - nginxControllerUserPassword
   - nginxControllerDNS

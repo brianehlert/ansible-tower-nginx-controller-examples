@@ -1,5 +1,5 @@
 ---
-app:
+nginx_controller_app:
   metadata:
     name: "trading.acmefinancial.net"
     displayName: "Trading.ACMEFinancial.net"
