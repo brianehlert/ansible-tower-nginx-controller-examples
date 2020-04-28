@@ -1,0 +1,19 @@
+---
+nginx_controller_gateway:
+  metadata:
+    name: "trading.acmefinancial.net"
+    displayName: "Trading application ingress"
+  desiredState:
+    ingress:
+      uris:
+        "http://trading.acmefinancial.net": {}
+        "https://trading.acmefinancial.net": {}
+      tls:
+        certRef:
+          ref: "/services/environments/{{ nginx_controller_environmentName }}/certs/trading.acmefinancial.net"
+        protocols:
+          - "TLSv1.3"
+      placement:
+        instanceRefs:
+          - ref: "/infrastructure/locations/unspecified/instances/{{ instanceName[0] }}"
+          - ref: "/infrastructure/locations/unspecified/instances/{{ instanceName[1] }}"
