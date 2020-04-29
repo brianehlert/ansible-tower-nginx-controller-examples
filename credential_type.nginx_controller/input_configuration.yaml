@@ -9,9 +9,6 @@ fields:
   - id: nginxControllerDNS
     type: string
     label: NGINX Controller DNS or IP address
-  - id: nginxControllerToken
-    type: string
-    label: NGINX Controller API Authentication Token
 required:
   - nginxControllerUserEmail
   - nginxControllerUserPassword
