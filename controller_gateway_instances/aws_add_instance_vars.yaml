@@ -1,5 +1,6 @@
 ---
-instanceType: t3a.micro
+count: 4
+instanceType: t3a.medium
 securityGroup: loadbalancer-sg
 imageId: ami-0fc20noteal406780b
 keyName: mykey
@@ -7,4 +8,4 @@ region: us-east-2
 loadbalancerPublicSubnet: subnet-0b03bad1228e29e93
 environmentName: production-us-west
 locationName: unspecified
-count: 6
+
