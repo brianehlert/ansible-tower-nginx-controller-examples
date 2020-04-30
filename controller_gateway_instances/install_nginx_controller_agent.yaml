@@ -43,5 +43,4 @@
       name: nginxinc.nginx_controller.nginx_controller_agent
     vars:
       nginx_controller_hostname: "{{ ansible_facts['fqdn'] }}"
-      # instance_name: "{{ ansible_facts['fqdn'] }}"
-      # location: 
+      nginx_controller_api_key: "{{ hostvars['localhost']['api_key'] }}"
