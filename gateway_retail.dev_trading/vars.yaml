@@ -1,4 +1,5 @@
 ---
+nginx_controller_environmentName: "production-us-east"
 nginx_controller_gateway:
   metadata:
     name: "trading.acmefinancial.net"

@@ -1,0 +1,16 @@
+---
+nginx_controller_environmentName: "production-us-east"
+nginx_controller_certificate:
+  metadata:
+    name:  "trading.acmefinancial.net"
+    displayName:  "Trading Certificate"
+    description:  "trading.acmefinancial.net API certificate"
+  desiredState:
+    type:  PEM
+    privateKey: |-
+      {{ lookup('file', "trading.acmefinancial.net.key") }}
+    publicCert: |-
+      {{ lookup('file', "trading.acmefinancial.net.crt") }}
+    caCerts:
+      - |-
+        {{ lookup('file', "chain.crt") }}

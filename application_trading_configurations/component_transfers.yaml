@@ -1,4 +1,5 @@
 ---
+nginx_controller_environmentName: "production-us-east"
 nginx_controller_component:
   metadata:
     name: "trading-transfers"
