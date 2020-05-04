@@ -9,7 +9,7 @@ nginx_controller_component:
       uris:
         "/app3": {}
       gatewayRefs:
-        - ref: "/services/environments/{{ environmentName }}/gateways/trading.acmefinancial.net"
+        - ref: "/services/environments/{{ nginx_controller_environmentName }}/gateways/trading.acmefinancial.net"
     backend:
       workloadGroups:
         servers:
