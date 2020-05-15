@@ -22,3 +22,8 @@ A demonstration repository for deploying new instances in AWS, installing NGINX 
 
 Maintaining your NGINX Controller gateway configuration in source control and using a single Ansible Tower Template to push your gateway configurations to Controller.
 
+## requirements.yml
+
+One pattern that is used and repeated is the use of requirements.yml for each playbook.
+The flexibility of this is pretty powerful for both Roles and Collections as you can select multiple sources and easily switch between development and production for example.
+There is more here: https://galaxy.ansible.com/docs/using/installing.html
