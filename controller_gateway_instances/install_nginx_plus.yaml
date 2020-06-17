@@ -2,7 +2,7 @@
 # this is a playbook to create X number of NGINX Plus instances for use as Gateway objects in NGINX Controller.
 # this example was developed for use with Ansible Tower.
 
-- name: Get the repo information to deploy nginx plus
+- name: The certificates to deploy nginx plus
   hosts: localhost
   gather_facts: false
   connection: local
@@ -25,14 +25,23 @@
 
 - name: install nginx plus
   hosts: tag_new_gateway
-  remote_user: ubuntu
+  remote_user: "{{ remoteUser }}"
   become: true
   gather_facts: true
 
   tasks:
-  - name: update the system
+  - name: patch rhel
+    yum:
+      name: "*"
+      state: latest
+    when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+
+  - name: patch ubuntu
     apt:
-      update_cache: yes
+      name: "*"
+      state: latest
+      update_cache: true
+    when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
   - name: load the vars
     include_vars: 
