@@ -1,0 +1,37 @@
+# to import Open API 3 YAML specifications to NGINX Controller
+---
+- hosts: localhost
+  gather_facts: no
+  collections:
+  - nginxinc.nginx_controller
+
+  tasks:
+  - include_role:
+      name: nginx_controller_generate_token
+
+  - name: find the api spec files
+    find:
+      paths: "{{ playbook_dir }}"
+      patterns: 'api_*.json'
+    register: api_definitions
+
+  # - debug: var=item.path
+  #   with_items: "{{ api_definitions.files }}"
+
+  # - debug: 
+  #     msg:
+  #     - nginx_controller_api_definition_version: "{{ (((item.path | basename).split('_'))[3]).split('.')[0] }}"
+  #     - nginx_controller_api_definition_body_format: "{{ (((item.path | basename).split('_'))[3]).split('.')[1] }}"
+  #     - nginx_controller_api_definition_name: "{{ ((item.path | basename).split('_'))[2] }}"
+  #   with_items: "{{ api_definitions.files }}"
+
+# Import each API specification
+  - include_role:
+      name: nginx_controller_api_definition_import
+    vars:
+      nginx_controller_api_definition_version: "{{ (((item.path | basename).split('_'))[3]).split('.')[0] }}"
+      nginx_controller_api_definition_name: "{{ ((item.path | basename).split('_'))[2] }}"
+      nginx_controller_api_definition: "{{lookup('file', item.path ) }}"
+    with_items: "{{ api_definitions.files }}"
+
+

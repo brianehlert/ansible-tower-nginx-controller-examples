@@ -1,0 +1,31 @@
+# to import Open API 3 YAML specifications to NGINX Controller
+---
+- hosts: localhost
+  gather_facts: no
+  collections:
+  - nginxinc.nginx_controller
+
+  tasks:
+  - include_role:
+      name: nginx_controller_generate_token
+
+  - name: find the api routes / component definitions
+    find:
+      paths: "{{ playbook_dir }}"
+      patterns: '*.json'
+    register: api_components
+
+  # Push each route / component to implement the API (create new or update)
+  - include_role:
+      name: nginx_controller_component
+    vars:
+      # nginx_controller_environmentName: "demo"
+      # nginx_controller_appName: "sports-results"
+      # nginx_controller_publishedApiRefs:
+      # - ref: "/services/environments/{{ nginx_controller_environmentName}}/apps/{{ nginx_controller_appName }}/published-apis/f1-v1-prod"
+      # nginx_controller_gatewayRefs:
+      # - ref: "/services/environments/{{ nginx_controller_environmentName }}/gateways/demo-api"
+      nginx_controller_component: "{{lookup('file', item.path ) }}"
+    with_items: "{{ api_components.files }}"
+
+
